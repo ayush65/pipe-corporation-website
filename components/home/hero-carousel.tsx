@@ -2,8 +2,7 @@
 
 import Image from "next/image"
 import Link from "next/link"
-import { useEffect, useState } from "react"
-import { preload } from "react-dom"
+import { useState } from "react"
 import { AnimatePresence, motion, useReducedMotion, type PanInfo } from "motion/react"
 import { ArrowRight, ChevronLeft, ChevronRight, Pause, Play } from "lucide-react"
 import { cn } from "@/lib/utils"
@@ -85,16 +84,17 @@ export function HeroCarousel() {
 
   /*
    * Warm the browser cache for the next slide so the crossfade never shows a
-   * blank frame. `preload` (React 19) emits a `<link rel="preload">` for the
-   * next image; without it each slide change cost a full network round trip.
+   * blank frame.
+   *
+   * This used to be a `<link rel="preload">` (via React 19's `preload()`).
+   * Chrome flags any preload that is not matched by a real element within a
+   * few seconds of the load event, and the next slide is 6s away — so the
+   * console was full of "preloaded but not used" warnings. Mounting the image
+   * instead turns it into an ordinary image request that the browser fetches
+   * and decodes ahead of time, which is what the preload was after anyway.
    */
-  useEffect(() => {
-    if (!autoRotate) return
-    const next = slides[(index + 1) % slides.length]
-    preload(next.image, { as: "image" })
-  }, [index, autoRotate])
-
   const words = slide.title.split(" ")
+  const nextSlide = slides[(index + 1) % slides.length]
 
   return (
     <section
@@ -299,6 +299,19 @@ export function HeroCarousel() {
             <div aria-hidden="true" className="crimson-orb absolute inset-[6%] rounded-full blur-2xl opacity-60" />
             <div className="chrome-ring absolute inset-0 rounded-full p-[3.5%] shadow-2xl shadow-black/60">
               <div className="relative size-full overflow-hidden rounded-full bg-white">
+                {/* The next slide's image is mounted (and hidden) so the
+                    browser fetches and decodes it before the crossfade —
+                    see the note above. */}
+                <div aria-hidden="true" className="pointer-events-none absolute inset-0 opacity-0">
+                  <Image
+                    src={nextSlide.image}
+                    alt=""
+                    fill
+                    sizes="(min-width: 1024px) 560px, (min-width: 640px) 448px, 352px"
+                    className="pointer-events-none object-contain p-[9%]"
+                    draggable={false}
+                  />
+                </div>
                 <AnimatePresence initial={false} custom={direction}>
                   <motion.div
                     key={slide.image}
