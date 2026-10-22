@@ -1,0 +1,137 @@
+@import 'tailwindcss';
+@import 'tw-animate-css';
+@import 'shadcn/tailwind.css';
+
+@custom-variant dark (&:is(.dark *));
+
+@theme inline {
+  --font-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
+  --font-display: var(--font-archivo), ui-sans-serif, system-ui, sans-serif;
+
+  --color-ring: var(--ring);
+  --color-input: var(--input);
+  --color-border: var(--border);
+  --color-destructive: var(--destructive);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-accent: var(--accent);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-muted: var(--muted);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-secondary: var(--secondary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-primary: var(--primary);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-popover: var(--popover);
+  --color-card-foreground: var(--card-foreground);
+  --color-card: var(--card);
+  --color-foreground: var(--foreground);
+  --color-background: var(--background);
+  --color-ink: var(--ink);
+  --color-ink-foreground: var(--ink-foreground);
+  --color-silver: var(--silver);
+  --color-crimson-deep: var(--crimson-deep);
+  --color-primary-bright: var(--primary-bright);
+
+  --radius-sm: calc(var(--radius) * 0.6);
+  --radius-md: calc(var(--radius) * 0.8);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) * 1.4);
+  --radius-2xl: calc(var(--radius) * 1.8);
+  --radius-3xl: calc(var(--radius) * 2.2);
+  --radius-4xl: calc(var(--radius) * 2.6);
+
+  --animate-marquee: marquee 40s linear infinite;
+  @keyframes marquee {
+    from { transform: translateX(0); }
+    to { transform: translateX(-50%); }
+  }
+}
+
+/* Palette sampled from the Pipe Corporation logo: pipe black, PC crimson, chrome silver, white. */
+:root {
+  color-scheme: light;
+  --background: oklch(0.99 0 0);
+  --foreground: oklch(0.17 0 0);
+  --card: oklch(1 0 0);
+  --card-foreground: oklch(0.17 0 0);
+  --popover: oklch(1 0 0);
+  --popover-foreground: oklch(0.17 0 0);
+  --primary: oklch(0.53 0.205 25);
+  --primary-foreground: oklch(0.99 0 0);
+  /* Lighter brand red for small text on dark surfaces — keeps 4.5:1 contrast on --ink. */
+  --primary-bright: oklch(0.68 0.2 25);
+  --crimson-deep: oklch(0.36 0.14 25);
+  --secondary: oklch(0.95 0.002 260);
+  --secondary-foreground: oklch(0.17 0 0);
+  --muted: oklch(0.96 0.002 260);
+  --muted-foreground: oklch(0.45 0.005 260);
+  --accent: oklch(0.93 0.004 260);
+  --accent-foreground: oklch(0.17 0 0);
+  --silver: oklch(0.82 0.005 260);
+  --ink: oklch(0.15 0 0);
+  --ink-foreground: oklch(0.97 0 0);
+  --destructive: oklch(0.577 0.245 27.325);
+  --border: oklch(0.9 0.003 260);
+  --input: oklch(0.88 0.003 260);
+  --ring: oklch(0.53 0.205 25);
+  --radius: 0.75rem;
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+  html {
+    scroll-behavior: smooth;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    html {
+      scroll-behavior: auto;
+    }
+  }
+  body {
+    @apply bg-background text-foreground font-sans;
+  }
+  h1, h2, h3, h4 {
+    @apply font-display text-balance;
+  }
+}
+
+@utility chrome-ring {
+  background: conic-gradient(from 210deg, #f5f5f6, #9a9ba0, #ffffff, #7d7e83, #e9e9eb, #a8a9ad, #f5f5f6);
+}
+
+@utility crimson-orb {
+  background: radial-gradient(circle at 35% 30%, oklch(0.62 0.22 25), oklch(0.45 0.18 25) 55%, oklch(0.2 0.05 25));
+}
+
+@keyframes hero-progress {
+  from { transform: scaleX(0); }
+  to { transform: scaleX(1); }
+}
+
+@keyframes slow-spin {
+  to { transform: rotate(360deg); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .motion-safe-spin {
+    animation: none !important;
+  }
+}
+
+/* Scroll-reveal wrappers are server-rendered at opacity 0. Without JavaScript
+   nothing would ever bring them back, so force the content visible. */
+@media (scripting: none) {
+  [style*="opacity:0;"] {
+    opacity: 1 !important;
+    transform: none !important;
+  }
+}
+
+@utility no-scrollbar {
+  scrollbar-width: none;
+  &::-webkit-scrollbar {
+    display: none;
+  }
+}
