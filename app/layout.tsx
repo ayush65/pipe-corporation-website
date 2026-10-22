@@ -61,7 +61,13 @@ export const metadata: Metadata = {
     // `twitter:image` falls back to the file-based Open Graph image.
   },
   icons: {
-    icon: '/icon.png',
+    // Sizes must match the real pixel dimensions of each file. The 512x512
+    // installable icon lives in the web app manifest only, so browsers never
+    // download 130 KB just to paint a tab favicon.
+    icon: [
+      { url: '/icon.png', type: 'image/png', sizes: '64x64' },
+      { url: '/icon-192.png', type: 'image/png', sizes: '192x192' },
+    ],
     apple: '/apple-icon.png',
   },
   manifest: '/manifest.webmanifest',

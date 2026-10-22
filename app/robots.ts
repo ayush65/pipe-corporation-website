@@ -1,5 +1,5 @@
 import type { MetadataRoute } from "next"
-import { absoluteUrl } from "@/lib/site"
+import { absoluteUrl, site } from "@/lib/site"
 
 export default function robots(): MetadataRoute.Robots {
   return {
@@ -11,6 +11,11 @@ export default function robots(): MetadataRoute.Robots {
       },
     ],
     sitemap: absoluteUrl("/sitemap.xml"),
-    host: absoluteUrl("/"),
+    /*
+     * The `host` directive takes a bare hostname (`www.example.com`), not a
+     * URL. Passing a full origin made the directive non-conformant, and
+     * crawlers are allowed to ignore the whole file when it is malformed.
+     */
+    host: new URL(site.url).host,
   }
 }
