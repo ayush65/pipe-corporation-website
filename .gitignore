@@ -17,3 +17,8 @@ node_modules
 
 # TypeScript
 *.tsbuildinfo
+.vercel
+.env
+.env.local
+.env.*.local
+!/.env.example
