@@ -58,7 +58,10 @@ export function ProductBrowser({ groups, categorySlug }: { groups: ProductGroup[
     <div className="mx-auto max-w-7xl px-4 py-10 sm:px-6 sm:py-14 lg:px-8">
       <div className="sticky top-16 z-30 -mx-4 border-b border-border bg-background/90 px-4 py-3 backdrop-blur-md sm:top-18 sm:-mx-6 sm:px-6 lg:-mx-8 lg:px-8">
         <div className="flex flex-col gap-3 lg:flex-row lg:items-center lg:justify-between">
-          <div className="-mx-1 flex gap-2 overflow-x-auto px-1 pb-1 no-scrollbar lg:flex-wrap lg:pb-0" role="toolbar" aria-label="Filter by product range">
+          {/* A `toolbar` role implies a single-tab-stop composite widget with
+              arrow-key navigation (APG). These are independent toggle buttons,
+              so `group` is the correct role. */}
+          <div className="-mx-1 flex gap-2 overflow-x-auto px-1 pb-1 no-scrollbar lg:flex-wrap lg:pb-0" role="group" aria-label="Filter by product range">
             {[{ slug: "all", title: "All ranges" }, ...groups].map((g) => {
               const isActive = activeGroup === g.slug
               return (
@@ -123,14 +126,23 @@ export function ProductBrowser({ groups, categorySlug }: { groups: ProductGroup[
             <p className="mt-2 text-sm text-muted-foreground">Try a different search, or ask us on WhatsApp — we stock 7,000+ SKUs.</p>
           </motion.div>
         ) : (
+          /*
+           * Sections animate with `transform` only.
+           *
+           * `initial={{ opacity: 0 }}` server-rendered every product image at
+           * zero opacity, so the catalogue grid was not painted until hydration
+           * finished — which pushed LCP out on the two largest pages of the site
+           * (146 product pages + 2 category pages). A transform-only entrance
+           * paints on the first frame and still reads as an entrance.
+           */
           visibleGroups.map((g) => (
             <motion.section
               key={g.slug}
               layout="position"
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0 }}
-              transition={{ duration: 0.35 }}
+              initial={{ y: 20 }}
+              animate={{ y: 0 }}
+              exit={{ opacity: 0, y: -12 }}
+              transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
               aria-labelledby={`group-${g.slug}`}
               className="mt-10 scroll-mt-40 first-of-type:mt-6"
               id={g.slug}
@@ -144,20 +156,20 @@ export function ProductBrowser({ groups, categorySlug }: { groups: ProductGroup[
                 </p>
               </div>
               <ul className="mt-6 grid grid-cols-2 gap-3 sm:grid-cols-3 sm:gap-5 lg:grid-cols-4">
-                {g.products.map((p, i) => (
-                  <motion.li
-                    key={p.id}
-                    initial={{ opacity: 0, y: 16 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: true, margin: "-40px" }}
-                    transition={{ duration: 0.4, delay: (i % 4) * 0.05 }}
-                  >
+                {/*
+                 * Plain <li>: the previous per-item `whileInView` re-ran from
+                 * opacity 0 every time a filter change re-mounted the list,
+                 * which made the whole grid flash, and it required ~150
+                 * IntersectionObserver targets per category page.
+                 */}
+                {g.products.map((p) => (
+                  <li key={p.id} className="h-full">
                     <ProductCard
                       product={p}
                       groupTitle={g.title}
                       href={productPath(categorySlug, g.slug, p.slug)}
                     />
-                  </motion.li>
+                  </li>
                 ))}
               </ul>
             </motion.section>

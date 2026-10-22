@@ -53,13 +53,32 @@ function AccordionContent({
   return (
     <AccordionPrimitive.Panel
       data-slot="accordion-content"
-      className="overflow-hidden text-sm data-open:animate-accordion-down data-closed:animate-accordion-up"
+      className={cn(
+        /*
+         * Base UI measures the panel and publishes it as
+         * `--accordion-panel-height`, flagging the transition window with
+         * `data-starting-style` / `data-ending-style`.
+         *
+         * The previous implementation used shadcn's
+         * `animate-accordion-down` / `animate-accordion-up` keyframes, which
+         * resolve their target height from `--radix-accordion-content-height`
+         * (plus Radix/Bits/Reka/KB/NGP fallbacks). Base UI sets none of them,
+         * so the keyframes fell back to `height: auto` — which cannot be
+         * interpolated — and the panel snapped open with no animation at all.
+         *
+         * Animating `height` between the measured value and 0 is Base UI's
+         * own documented pattern and interpolates correctly.
+         */
+        "h-(--accordion-panel-height) overflow-hidden",
+        "transition-[height] duration-200 ease-out",
+        "data-starting-style:h-0 data-ending-style:h-0",
+      )}
       {...props}
     >
       <div
         className={cn(
-          "h-(--accordion-panel-height) pt-0 pb-2.5 data-ending-style:h-0 data-starting-style:h-0 [&_a]:underline [&_a]:underline-offset-3 [&_a]:hover:text-foreground [&_p:not(:last-child)]:mb-4",
-          className
+          "pt-0 pb-2.5 text-sm [&_a]:underline [&_a]:underline-offset-3 [&_a]:hover:text-foreground [&_p:not(:last-child)]:mb-4",
+          className,
         )}
       >
         {children}

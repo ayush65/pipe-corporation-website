@@ -51,11 +51,14 @@ export const metadata: Metadata = {
     type: 'website',
     siteName: site.name,
     locale: 'en_IN',
-    images: [{ url: absoluteUrl('/logo.png'), width: 1200, height: 630, alt: site.name }],
+    // No `images` here on purpose — `app/opengraph-image.tsx` generates a branded
+    // 1200x630 card and the file convention is the single source of truth for it.
+    // Declaring `/logo.png` (a 400x336 raster) overrode it and shipped every social
+    // card with wrong dimensions.
   },
   twitter: {
     card: 'summary_large_image',
-    images: [absoluteUrl('/logo.png')],
+    // `twitter:image` falls back to the file-based Open Graph image.
   },
   icons: {
     icon: '/icon.png',

@@ -2,13 +2,12 @@
 
 import { useState } from "react"
 import { Send } from "lucide-react"
-import { categories } from "@/lib/catalog"
 import { whatsappLink } from "@/lib/site"
 
 const fieldClass =
   "h-12 w-full rounded-xl border border-input bg-background px-4 text-sm outline-none transition focus:border-primary focus:ring-3 focus:ring-primary/20"
 
-export function ContactForm() {
+export function ContactForm({ categoryTitles }: { categoryTitles: string[] }) {
   const [sent, setSent] = useState(false)
 
   function onSubmit(e: React.FormEvent<HTMLFormElement>) {
@@ -69,9 +68,14 @@ export function ContactForm() {
           <label htmlFor="category" className="text-sm font-semibold">
             Category
           </label>
-          <select id="category" name="category" className={fieldClass} defaultValue={categories[0].title}>
-            {categories.map((c) => (
-              <option key={c.slug}>{c.title}</option>
+          <select
+            id="category"
+            name="category"
+            className={fieldClass}
+            defaultValue={categoryTitles[0] ?? "Both / Other"}
+          >
+            {categoryTitles.map((title) => (
+              <option key={title}>{title}</option>
             ))}
             <option>Both / Other</option>
           </select>

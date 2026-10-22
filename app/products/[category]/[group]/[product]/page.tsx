@@ -6,6 +6,13 @@ import { ProductDetail } from "@/components/products/product-detail"
 import { categories, getProduct, productPath, relatedProducts } from "@/lib/catalog"
 import { pageMetadata } from "@/lib/seo"
 
+/**
+ * The catalogue is fully known at build time, so unknown slugs must 404 rather
+ * than be rendered on demand at runtime. Without this, Next keeps the dynamic
+ * route open and server-renders an infinite tail of bogus product URLs.
+ */
+export const dynamicParams = false
+
 export function generateStaticParams() {
   return categories.flatMap((category) =>
     category.groups.flatMap((group) =>
@@ -33,7 +40,6 @@ export async function generateMetadata({
     title: found.product.title,
     description: found.product.description,
     path,
-    image: found.product.image,
   })
 }
 

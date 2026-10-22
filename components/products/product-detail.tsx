@@ -45,11 +45,10 @@ export function ProductDetail({
       "@type": "Offer",
       availability: "https://schema.org/InStock",
       priceCurrency: "INR",
-      priceSpecification: {
-        "@type": "PriceSpecification",
-        priceCurrency: "INR",
-        valueAddedTaxIncluded: false,
-      },
+      // NOTE: no `price`/`priceSpecification` — a PriceSpecification without a
+      // `price` makes the Offer schema-invalid and Google drops the whole
+      // Product rich result. Prices are quoted per enquiry, so we publish
+      // availability + currency only.
       seller: {
         "@type": "Organization",
         name: site.name,
@@ -66,7 +65,10 @@ export function ProductDetail({
       <section className="bg-background py-10 sm:py-14">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <div className="grid gap-10 lg:grid-cols-[0.9fr_1.1fr] lg:gap-14">
-            <Reveal className="relative">
+            {/* The product photo is the LCP element — it must paint on the first
+                frame, so it uses a transform-only entrance instead of a
+                scroll-reveal that server-renders it at opacity 0. */}
+            <div className="enter-up relative">
               <div className="relative aspect-square overflow-hidden rounded-3xl border border-border bg-white">
                 <Image
                   src={product.image}
@@ -89,9 +91,9 @@ export function ProductDetail({
                   View range
                 </Link>
               </div>
-            </Reveal>
+            </div>
 
-            <Reveal delay={0.08} className="flex flex-col gap-6">
+            <div className="enter-up flex flex-col gap-6" style={{ animationDelay: "80ms" }}>
               <div>
                 <p className="text-xs font-bold uppercase tracking-[0.18em] text-primary">{category.title}</p>
                 <h1 className="mt-3 font-display text-3xl font-extrabold leading-tight tracking-tight sm:text-4xl">
@@ -135,7 +137,7 @@ export function ProductDetail({
                 Prices vary by size, grade and quantity. Share your requirement on WhatsApp or call our office and we
                 will confirm stock and dispatch timelines. Office: {site.phoneOffice}.
               </p>
-            </Reveal>
+            </div>
           </div>
         </div>
       </section>

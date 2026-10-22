@@ -1,6 +1,6 @@
 import Link from "next/link"
 import { ChevronRight } from "lucide-react"
-import { Reveal } from "@/components/reveal"
+import { cn } from "@/lib/utils"
 
 export function PageHero({
   eyebrow,
@@ -48,7 +48,14 @@ export function PageHero({
             ))}
           </ol>
         </nav>
-        <Reveal className={title ? "mt-6 max-w-3xl" : "mt-4"}>
+        {/*
+          The hero is the LCP region, so it must be painted on the first frame.
+          `Reveal` server-renders `opacity: 0` and only reveals after hydration
+          + IntersectionObserver, which deferred LCP and hid the <h1> from
+          assistive tech until JavaScript ran. `enter-up` animates transform
+          only, so the heading is painted immediately.
+        */}
+        <div className={cn("enter-up", title ? "mt-6 max-w-3xl" : "mt-4")}>
           <p className="text-xs font-bold uppercase tracking-[0.22em] text-primary-bright">{eyebrow}</p>
           {title && (
             <h1 className="mt-3 font-display text-4xl font-extrabold leading-[1.05] tracking-tight sm:text-5xl lg:text-6xl">
@@ -56,7 +63,7 @@ export function PageHero({
             </h1>
           )}
           {description && <p className="mt-5 max-w-2xl text-pretty text-base text-white/65 sm:text-lg">{description}</p>}
-        </Reveal>
+        </div>
         {children}
       </div>
     </section>

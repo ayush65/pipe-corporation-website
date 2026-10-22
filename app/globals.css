@@ -1,6 +1,12 @@
 @import 'tailwindcss';
 @import 'tw-animate-css';
-@import 'shadcn/tailwind.css';
+
+/* Base UI sets `data-open` / `data-closed` on accordion panels.
+   These variants used to come from `shadcn/tailwind.css`; inlining the two
+   we actually use removes a runtime dependency on the shadcn CLI package
+   (and ~4 KB of unused utilities such as `scroll-fade` / `shimmer`). */
+@custom-variant data-open (&:where([data-open]:not([data-open="false"])));
+@custom-variant data-closed (&:where([data-closed]:not([data-closed="false"])));
 
 @custom-variant dark (&:is(.dark *));
 
@@ -83,6 +89,9 @@
   }
   html {
     scroll-behavior: smooth;
+    /* Reserve the scrollbar gutter so locking body scroll (mobile menu) cannot
+       shift the whole page horizontally by the scrollbar width. */
+    scrollbar-gutter: stable;
   }
   @media (prefers-reduced-motion: reduce) {
     html {
@@ -133,5 +142,34 @@
   scrollbar-width: none;
   &::-webkit-scrollbar {
     display: none;
+  }
+}
+
+/**
+ * Entrance animation for above-the-fold content (hero headings, product media).
+ *
+ * It deliberately animates `transform` only — never `opacity`. An opacity fade
+ * starts the element at `opacity: 0`, which means it is not painted at first
+ * frame: browsers ignore zero-opacity elements when computing LCP, so the
+ * largest contentful paint was being deferred until hydration finished and the
+ * animation ran. A transform-only animation paints immediately, so LCP is
+ * recorded on the first frame while the entrance still reads as an entrance.
+ */
+@utility enter-up {
+  animation: enter-up 0.55s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+@keyframes enter-up {
+  from {
+    transform: translate3d(0, 14px, 0);
+  }
+  to {
+    transform: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .enter-up {
+    animation: none;
   }
 }

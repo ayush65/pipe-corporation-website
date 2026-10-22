@@ -5,8 +5,12 @@ import { useEffect } from "react"
 /**
  * Last-resort boundary. It replaces the root layout, so it must render its own
  * <html> and <body> and cannot rely on global styles being applied.
+ *
+ * Next.js passes the recovery callback as `reset`; the previous version ignored
+ * it entirely, so a transient failure could only be recovered from by a manual
+ * browser refresh.
  */
-export default function GlobalError({ error }: { error: Error & { digest?: string } }) {
+export default function GlobalError({ error, reset }: { error: Error & { digest?: string }; reset: () => void }) {
   useEffect(() => {
     console.error(error)
   }, [error])
@@ -50,22 +54,40 @@ export default function GlobalError({ error }: { error: Error & { digest?: strin
               Reference: {error.digest}
             </p>
           ) : null}
-          <a
-            href="/"
-            style={{
-              display: "inline-block",
-              marginTop: "1.75rem",
-              padding: "0.85rem 1.75rem",
-              borderRadius: "9999px",
-              background: "#e0453f",
-              color: "#fff",
-              fontWeight: 600,
-              fontSize: "0.9rem",
-              textDecoration: "none",
-            }}
-          >
-            Back to home
-          </a>
+          <div style={{ display: "flex", flexWrap: "wrap", gap: "0.75rem", marginTop: "1.75rem" }}>
+            <button
+              type="button"
+              onClick={() => reset()}
+              style={{
+                display: "inline-block",
+                padding: "0.85rem 1.75rem",
+                borderRadius: "9999px",
+                border: 0,
+                background: "#e0453f",
+                color: "#fff",
+                fontWeight: 600,
+                fontSize: "0.9rem",
+                cursor: "pointer",
+              }}
+            >
+              Try again
+            </button>
+            <a
+              href="/"
+              style={{
+                display: "inline-block",
+                padding: "0.85rem 1.75rem",
+                borderRadius: "9999px",
+                border: "1px solid rgba(255,255,255,0.25)",
+                color: "#fff",
+                fontWeight: 600,
+                fontSize: "0.9rem",
+                textDecoration: "none",
+              }}
+            >
+              Back to home
+            </a>
+          </div>
         </div>
       </body>
     </html>

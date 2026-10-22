@@ -4,6 +4,7 @@ import { PageHero } from "@/components/page-hero"
 import { Reveal } from "@/components/reveal"
 import { ContactForm } from "@/components/contact/contact-form"
 import { Faq } from "@/components/home/faq"
+import { categories } from "@/lib/catalog"
 import { site, whatsappLink } from "@/lib/site"
 import { pageMetadata } from "@/lib/seo"
 
@@ -82,7 +83,7 @@ export default function ContactPage() {
             </Reveal>
           </div>
           <Reveal delay={0.1}>
-            <ContactForm />
+            <ContactForm categoryTitles={categories.map((c) => c.title)} />
           </Reveal>
         </div>
       </section>

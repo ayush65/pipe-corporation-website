@@ -17,23 +17,28 @@ export function AboutTimeline() {
           eyebrow="Our Journey"
           title={<span id="journey-heading">Built on a strong foundation.</span>}
         />
-        <ol className="relative mt-14 grid gap-6 md:grid-cols-4">
+        {/* The connector line is decorative and must not be a direct child of
+            the <ol> — <ol> only permits <li> children (HTML spec), and the
+            stray <span> was an invalid list child. */}
+        <div className="relative mt-14">
           <span aria-hidden="true" className="absolute left-0 right-0 top-6 hidden h-0.5 bg-gradient-to-r from-primary via-foreground/20 to-primary md:block" />
-          {milestones.map((m, i) => (
-            <li key={m.year}>
-              <Reveal delay={i * 0.1} className="relative flex flex-col gap-3">
-                <span className="chrome-ring relative z-10 flex size-12 items-center justify-center rounded-full p-0.5">
-                  <span className="crimson-orb flex size-full items-center justify-center rounded-full text-xs font-bold text-white">
-                    {String(i + 1).padStart(2, "0")}
+          <ol className="relative grid gap-6 md:grid-cols-4">
+            {milestones.map((m, i) => (
+              <li key={m.year}>
+                <Reveal delay={i * 0.1} className="relative flex flex-col gap-3">
+                  <span className="chrome-ring relative z-10 flex size-12 items-center justify-center rounded-full p-0.5">
+                    <span className="crimson-orb flex size-full items-center justify-center rounded-full text-xs font-bold text-white">
+                      {String(i + 1).padStart(2, "0")}
+                    </span>
                   </span>
-                </span>
-                <p className="mt-2 text-xs font-bold uppercase tracking-[0.18em] text-primary">{m.year}</p>
-                <h3 className="font-display text-xl font-bold">{m.title}</h3>
-                <p className="text-sm leading-relaxed text-muted-foreground">{m.body}</p>
-              </Reveal>
-            </li>
-          ))}
-        </ol>
+                  <p className="mt-2 text-xs font-bold uppercase tracking-[0.18em] text-primary">{m.year}</p>
+                  <h3 className="font-display text-xl font-bold">{m.title}</h3>
+                  <p className="text-sm leading-relaxed text-muted-foreground">{m.body}</p>
+                </Reveal>
+              </li>
+            ))}
+          </ol>
+        </div>
       </div>
     </section>
   )

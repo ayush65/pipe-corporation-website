@@ -87,13 +87,15 @@ export function SiteHeader() {
 
       <AnimatePresence>
         {open && (
+          /* The header bar is h-16 below `sm` and h-18 from `sm` up. Without the
+             `sm:top-18` the panel overlapped the bar by 8px between 640-768px. */
           <motion.div
             id="mobile-menu"
             initial={{ opacity: 0, y: -12 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -12 }}
             transition={{ duration: 0.25, ease: "easeOut" }}
-            className="fixed inset-x-0 top-16 bottom-0 z-40 overflow-y-auto bg-ink px-6 pb-10 pt-6 text-ink-foreground md:hidden"
+            className="fixed inset-x-0 top-16 bottom-0 z-40 overflow-y-auto bg-ink px-6 pb-10 pt-6 text-ink-foreground sm:top-18 md:hidden"
           >
             <nav aria-label="Mobile">
               <ul className="flex flex-col">

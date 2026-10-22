@@ -5,7 +5,14 @@ import Link from "next/link"
 import { RefreshCw, MessageCircle } from "lucide-react"
 import { whatsappLink } from "@/lib/site"
 
-export default function Error({ error, retry }: { error: Error & { digest?: string }; retry: () => void }) {
+/**
+ * Route-level error boundary.
+ *
+ * NOTE: Next.js passes the recovery callback as `reset` — *not* `retry`.
+ * Naming it `retry` made the "Try again" button throw
+ * `TypeError: retry is not a function` the moment a visitor clicked it.
+ */
+export default function Error({ error, reset }: { error: Error & { digest?: string }; reset: () => void }) {
   useEffect(() => {
     console.error(error)
   }, [error])
@@ -29,7 +36,7 @@ export default function Error({ error, retry }: { error: Error & { digest?: stri
         <div className="flex flex-wrap items-center justify-center gap-3">
           <button
             type="button"
-            onClick={() => retry()}
+            onClick={() => reset()}
             className="inline-flex items-center gap-2 rounded-full bg-primary px-6 py-3.5 text-sm font-semibold text-primary-foreground transition-colors hover:bg-crimson-deep"
           >
             <RefreshCw className="size-4" aria-hidden="true" />

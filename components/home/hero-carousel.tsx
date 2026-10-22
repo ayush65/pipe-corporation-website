@@ -2,7 +2,8 @@
 
 import Image from "next/image"
 import Link from "next/link"
-import { useState } from "react"
+import { useEffect, useState } from "react"
+import { preload } from "react-dom"
 import { AnimatePresence, motion, useReducedMotion, type PanInfo } from "motion/react"
 import { ArrowRight, ChevronLeft, ChevronRight, Pause, Play } from "lucide-react"
 import { cn } from "@/lib/utils"
@@ -64,6 +65,14 @@ export function HeroCarousel() {
   const isPaused = paused || hovered
   const slide = slides[index]
 
+  /*
+   * Auto-rotation is disabled for visitors who ask for reduced motion. The
+   * rotation is driven by the progress bar's CSS animation (see
+   * `onAnimationEnd` below), so simply not starting that animation is enough
+   * — the visitor then drives the carousel with the arrows / dots.
+   */
+  const autoRotate = !reduceMotion
+
   const go = (next: number) => {
     const dir = next > index || (index === slides.length - 1 && next === 0) ? 1 : -1
     setState([(next + slides.length) % slides.length, dir])
@@ -73,6 +82,17 @@ export function HeroCarousel() {
     if (info.offset.x < -60) go(index + 1)
     else if (info.offset.x > 60) go(index - 1)
   }
+
+  /*
+   * Warm the browser cache for the next slide so the crossfade never shows a
+   * blank frame. `preload` (React 19) emits a `<link rel="preload">` for the
+   * next image; without it each slide change cost a full network round trip.
+   */
+  useEffect(() => {
+    if (!autoRotate) return
+    const next = slides[(index + 1) % slides.length]
+    preload(next.image, { as: "image" })
+  }, [index, autoRotate])
 
   const words = slide.title.split(" ")
 
@@ -94,28 +114,62 @@ export function HeroCarousel() {
       />
 
       <div className="mx-auto grid max-w-7xl items-center gap-10 px-4 pb-10 pt-10 sm:px-6 lg:min-h-[calc(100svh-4.5rem)] lg:grid-cols-[1.05fr_1fr] lg:gap-6 lg:px-8 lg:py-16">
-        <div className="order-2 flex flex-col lg:order-1" aria-live={isPaused ? "polite" : "off"}>
-          <AnimatePresence mode="wait" initial={false}>
-            <motion.div
-              key={index}
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0, transition: { duration: 0.2 } }}
-              role="group"
-              aria-roledescription="slide"
-              aria-label={`${index + 1} of ${slides.length}`}
-            >
-              <motion.p
-                initial={{ opacity: 0, y: 12 }}
+        {/*
+         * Slide container.
+         *
+         * APG carousel pattern: the slide is a `group` with
+         * `aria-roledescription="slide"` and an "n of N" label, and the slide
+         * picker is a plain button group — NOT a `tablist`. Using `role="tab"`
+         * implied the slides were tab panels (they are not) and left the
+         * picker outside the tab sequence for keyboard users.
+         *
+         * `aria-live` follows the APG guidance: silent while the carousel
+         * rotates on its own, polite once the visitor takes control with the
+         * pause button.
+         */}
+        <div
+          role="group"
+          aria-roledescription="slide"
+          aria-label={`${index + 1} of ${slides.length}`}
+          aria-live={paused ? "polite" : "off"}
+          className="order-2 flex flex-col lg:order-1"
+        >
+          {/* Eyebrow — persistent element, only the label is swapped. */}
+          <p className="inline-flex h-7 items-center gap-2 self-start overflow-hidden rounded-full border border-white/15 bg-white/5 px-3 text-xs font-semibold uppercase tracking-[0.2em] text-white/80">
+            <span className="size-1.5 shrink-0 rounded-full bg-primary" aria-hidden="true" />
+            <AnimatePresence mode="wait" initial={false}>
+              <motion.span
+                key={slide.eyebrow}
+                initial={{ opacity: 0, y: 8 }}
                 animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.4 }}
-                className="inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/5 px-3 py-1.5 text-xs font-semibold uppercase tracking-[0.2em] text-white/80"
+                exit={{ opacity: 0, y: -8 }}
+                transition={{ duration: 0.22 }}
+                className="inline-block"
               >
-                <span className="size-1.5 rounded-full bg-primary" aria-hidden="true" />
                 {slide.eyebrow}
-              </motion.p>
+              </motion.span>
+            </AnimatePresence>
+          </p>
 
-              <h1 className="mt-5 font-display text-4xl font-extrabold leading-[1.02] tracking-tight sm:text-5xl lg:text-6xl xl:text-7xl">
+          {/*
+           * The <h1> is deliberately NOT inside an <AnimatePresence>.
+           *
+           * Previously the whole slide — including the <h1> — was swapped on
+           * every change, so the page had no <h1> at all for the duration of
+           * the transition. That breaks the document outline, hides the page
+           * heading from assistive technology and crawlers, and makes LCP
+           * re-trigger. The heading now stays mounted for the lifetime of the
+           * page and only its words animate.
+           */}
+          <h1 className="mt-5 font-display text-4xl font-extrabold leading-[1.02] tracking-tight sm:text-5xl lg:text-6xl xl:text-7xl">
+            <AnimatePresence mode="wait" initial={false}>
+              <motion.span
+                key={index}
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0, transition: { duration: 0.12 } }}
+                className="inline-block"
+              >
                 {words.map((word, i) => (
                   <span key={`${word}-${i}`} className="inline-block overflow-hidden pb-1 align-bottom">
                     <motion.span
@@ -129,23 +183,23 @@ export function HeroCarousel() {
                     </motion.span>
                   </span>
                 ))}
-              </h1>
+              </motion.span>
+            </AnimatePresence>
+          </h1>
 
-              <motion.p
-                initial={{ opacity: 0, y: 14 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.5, delay: 0.35 }}
-                className="mt-5 max-w-lg text-pretty text-base leading-relaxed text-white/70 sm:text-lg"
-              >
+          <AnimatePresence mode="wait" initial={false}>
+            <motion.div
+              key={index}
+              initial={{ opacity: 0, y: 14 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -10 }}
+              transition={{ duration: 0.32 }}
+            >
+              <p className="mt-5 max-w-lg text-pretty text-base leading-relaxed text-white/70 sm:text-lg">
                 {slide.description}
-              </motion.p>
+              </p>
 
-              <motion.div
-                initial={{ opacity: 0, y: 14 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.5, delay: 0.45 }}
-                className="mt-8 flex flex-wrap items-center gap-3"
-              >
+              <div className="mt-8 flex flex-wrap items-center gap-3">
                 <Link
                   href={slide.href}
                   className="group inline-flex items-center gap-2 rounded-full bg-primary px-6 py-3.5 text-sm font-semibold text-primary-foreground transition-colors hover:bg-crimson-deep"
@@ -159,19 +213,18 @@ export function HeroCarousel() {
                 >
                   Get a Quote
                 </Link>
-              </motion.div>
+              </div>
             </motion.div>
           </AnimatePresence>
 
           <div className="mt-10 flex items-center gap-4">
-            <div className="flex flex-1 gap-2" role="tablist" aria-label="Choose slide">
+            <div role="group" aria-label="Choose slide to display" className="flex flex-1 gap-2">
               {slides.map((s, i) => (
                 <button
                   key={s.title}
                   type="button"
-                  role="tab"
-                  aria-selected={i === index}
-                  aria-label={`Slide 0${i + 1}: ${s.eyebrow}`}
+                  aria-label={`Slide ${i + 1} of ${slides.length}: ${s.eyebrow}`}
+                  aria-current={i === index ? "true" : undefined}
                   onClick={() => go(i)}
                   className="group flex flex-1 flex-col gap-2 py-2 text-left"
                 >
@@ -183,7 +236,7 @@ export function HeroCarousel() {
                         onAnimationEnd={() => go(index + 1)}
                         className="absolute inset-0 origin-left bg-primary"
                         style={{
-                          animation: `hero-progress ${SLIDE_MS}ms linear forwards`,
+                          animation: autoRotate ? `hero-progress ${SLIDE_MS}ms linear forwards` : undefined,
                           animationPlayState: isPaused ? "paused" : "running",
                         }}
                       />
@@ -212,6 +265,7 @@ export function HeroCarousel() {
               <button
                 type="button"
                 onClick={() => setPaused((p) => !p)}
+                aria-pressed={paused}
                 className="inline-flex size-10 items-center justify-center rounded-full border border-white/15 transition-colors hover:bg-white hover:text-ink"
               >
                 {paused ? <Play className="size-4" aria-hidden="true" /> : <Pause className="size-4" aria-hidden="true" />}
