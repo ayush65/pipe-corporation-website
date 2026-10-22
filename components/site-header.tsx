@@ -6,6 +6,7 @@ import { useEffect, useState } from "react"
 import { AnimatePresence, motion } from "motion/react"
 import { Menu, Phone, X } from "lucide-react"
 import { BrandLogo } from "@/components/brand-logo"
+import { EnquiryTrigger } from "@/components/enquiry/enquiry-trigger"
 import { nav, site } from "@/lib/site"
 import { cn } from "@/lib/utils"
 
@@ -65,6 +66,12 @@ export function SiteHeader() {
         </nav>
 
         <div className="flex items-center gap-2">
+          <EnquiryTrigger
+            source="header"
+            className="hidden border-border bg-transparent text-foreground hover:border-primary/50 hover:bg-primary/5 hover:text-foreground sm:inline-flex"
+          >
+            Enquiry
+          </EnquiryTrigger>
           <a
             href={site.phoneMainHref}
             className="hidden items-center gap-2 rounded-full bg-primary px-4 py-2.5 text-sm font-semibold text-primary-foreground transition-colors hover:bg-crimson-deep lg:inline-flex"
@@ -124,6 +131,13 @@ export function SiteHeader() {
               </ul>
             </nav>
             <div className="mt-8 flex flex-col gap-3">
+              <EnquiryTrigger
+                source="mobile-menu"
+                className="w-full bg-white text-ink hover:bg-white/90"
+                onClick={() => setOpen(false)}
+              >
+                Send an enquiry
+              </EnquiryTrigger>
               <a
                 href={site.phoneMainHref}
                 className="flex items-center justify-center gap-2 rounded-full bg-primary px-5 py-3.5 font-semibold text-primary-foreground"

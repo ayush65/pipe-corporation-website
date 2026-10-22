@@ -6,6 +6,8 @@ import { SiteHeader } from '@/components/site-header'
 import { SiteFooter } from '@/components/site-footer'
 import { StructuredData } from '@/components/structured-data'
 import { WhatsAppFab } from '@/components/whatsapp-fab'
+import { EnquiryProvider } from '@/components/enquiry/enquiry-provider'
+import { categories } from '@/lib/catalog'
 import { absoluteUrl, site } from '@/lib/site'
 import './globals.css'
 
@@ -164,10 +166,18 @@ export default function RootLayout({
     <html lang="en" className={`${inter.variable} ${archivo.variable}`}>
       <body className="antialiased">
         <MotionProvider>
-          <SiteHeader />
-          <main id="main">{children}</main>
-          <SiteFooter />
-          <WhatsAppFab />
+          {/*
+            The enquiry dialog lives here so the header button, the CTA band
+            and the 7-second popup all drive the same instance. Only the two
+            category titles cross into the client bundle — the catalogue
+            itself stays on the server.
+          */}
+          <EnquiryProvider categoryTitles={categories.map((category) => category.title)}>
+            <SiteHeader />
+            <main id="main">{children}</main>
+            <SiteFooter />
+            <WhatsAppFab />
+          </EnquiryProvider>
         </MotionProvider>
         <StructuredData data={[organizationSchema, localBusinessSchema, websiteSchema]} />
         {process.env.NODE_ENV === 'production' && <Analytics />}

@@ -1,4 +1,5 @@
 import { MessageCircle, Phone } from "lucide-react"
+import { EnquiryTrigger } from "@/components/enquiry/enquiry-trigger"
 import { Reveal } from "@/components/reveal"
 import { site, whatsappLink } from "@/lib/site"
 
@@ -18,6 +19,12 @@ export function CtaBand() {
             </p>
           </div>
           <div className="flex flex-col gap-3 sm:flex-row">
+            <EnquiryTrigger
+              source="cta-band"
+              className="bg-white px-6 py-3.5 text-ink hover:bg-white/90"
+            >
+              Get a quote
+            </EnquiryTrigger>
             <a
               href={whatsappLink("Hello Pipe Corporation, I would like a quote.")}
               target="_blank"
