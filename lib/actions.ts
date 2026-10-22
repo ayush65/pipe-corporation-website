@@ -2,28 +2,21 @@
 
 import { headers } from "next/headers"
 import {
-  enquiryHtml,
-  enquiryPlainText,
-  enquirySubject,
   readEnquiryFields,
   validateEnquiry,
   type EnquiryState,
 } from "@/lib/enquiry"
+import { sendEnquiryEmail } from "@/lib/mail"
 import { site } from "@/lib/site"
 
 /**
  * Sends a website enquiry to the Pipe Corporation inbox.
- *
- * Delivery uses the Resend HTTP API (https://resend.com) — one API key, no
- * extra dependency and no SMTP credentials to rotate. Set `RESEND_API_KEY` in
- * the deployment environment to turn delivery on.
  *
  * A Server Action is a public endpoint: anyone can POST to it. So this
  * function treats every field as untrusted and re-validates from scratch,
  * rate-limits by IP, and drops anything that fills the honeypot.
  */
 
-const RESEND_ENDPOINT = "https://api.resend.com/emails"
 const RATE_LIMIT_WINDOW_MS = 60_000
 const RATE_LIMIT_MAX = 5
 
@@ -80,45 +73,19 @@ export async function sendEnquiry(_previous: EnquiryState, formData: FormData): 
     }
   }
 
-  const apiKey = process.env.RESEND_API_KEY
-  if (!apiKey) {
-    /*
-     * No mail provider configured yet. The client turns this into a WhatsApp
-     * hand-off so the enquiry still reaches the sales desk.
-     */
-    return {
-      status: "unconfigured",
-      message: "Email delivery is being set up. Send it on WhatsApp and we'll pick it up right away.",
-    }
-  }
+  const result = await sendEnquiryEmail(data)
 
-  try {
-    const response = await fetch(RESEND_ENDPOINT, {
-      method: "POST",
-      headers: {
-        Authorization: `Bearer ${apiKey}`,
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        from: process.env.ENQUIRY_FROM_EMAIL ?? "Pipe Corporation <onboarding@resend.dev>",
-        to: [process.env.ENQUIRY_TO_EMAIL ?? site.email],
-        ...(data.email ? { reply_to: data.email } : {}),
-        subject: enquirySubject(data),
-        text: enquiryPlainText(data),
-        html: enquiryHtml(data),
-      }),
-    })
-
-    if (!response.ok) {
-      const detail = await response.text().catch(() => "")
-      console.error("[enquiry] Resend rejected the email", response.status, detail.slice(0, 500))
+  if (!result.ok) {
+    if (!result.configured) {
+      /*
+       * No mail provider configured yet. The client turns this into a
+       * WhatsApp hand-off so the enquiry still reaches the sales desk.
+       */
       return {
-        status: "failed",
-        message: "We couldn't send that just now. Please try WhatsApp or call us on " + site.phoneMain + ".",
+        status: "unconfigured",
+        message: "Email delivery is being set up. Send it on WhatsApp and we'll pick it up right away.",
       }
     }
-  } catch (error) {
-    console.error("[enquiry] sending the email failed", error)
     return {
       status: "failed",
       message: "We couldn't send that just now. Please try WhatsApp or call us on " + site.phoneMain + ".",

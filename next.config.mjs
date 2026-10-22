@@ -35,6 +35,12 @@ const nextConfig = {
   images: {
     unoptimized: true,
   },
+  /*
+   * nodemailer resolves its SMTP transport at runtime and is not on Next.js's
+   * built-in server-external list, so it is opted out explicitly to keep the
+   * Node.js `require` calls intact.
+   */
+  serverExternalPackages: ["nodemailer"],
   async headers() {
     return [
       {
