@@ -2,7 +2,8 @@
 
 import { useDeferredValue, useMemo, useState } from "react"
 import { AnimatePresence, motion } from "motion/react"
-import { MessageCircle, Search, X } from "lucide-react"
+import { Search, X } from "lucide-react"
+import { FaWhatsapp } from "react-icons/fa"
 import { ProductCard } from "@/components/product-card"
 import type { Product } from "@/lib/catalog"
 import { whatsappLink } from "@/lib/site"
@@ -106,7 +107,7 @@ export function CatalogueSearch({ entries }: { entries: CatalogueEntry[] }) {
                 rel="noopener noreferrer"
                 className="mt-6 inline-flex items-center justify-center gap-2 rounded-full bg-primary px-6 py-3.5 text-sm font-semibold text-primary-foreground transition-colors hover:bg-crimson-deep"
               >
-                <MessageCircle className="size-4" aria-hidden="true" />
+                <FaWhatsapp className="size-4" aria-hidden="true" />
                 Ask on WhatsApp
               </a>
             </motion.div>
@@ -118,7 +119,7 @@ export function CatalogueSearch({ entries }: { entries: CatalogueEntry[] }) {
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0 }}
                 transition={{ duration: 0.3 }}
-                className="mt-10 grid grid-cols-2 gap-3 sm:gap-5 lg:grid-cols-4"
+                className="mt-10 grid grid-cols-1 gap-3 sm:grid-cols-2 sm:gap-5 lg:grid-cols-4"
               >
                 {results.map((e, i) => (
                   <li key={`${e.categorySlug}-${e.groupSlug}-${e.product.id}`}>

@@ -1,4 +1,5 @@
-import { MessageCircle, Phone } from "lucide-react"
+import { Phone } from "lucide-react"
+import { FaWhatsapp } from "react-icons/fa"
 import { EnquiryTrigger } from "@/components/enquiry/enquiry-trigger"
 import { Reveal } from "@/components/reveal"
 import { site, whatsappLink } from "@/lib/site"
@@ -31,7 +32,7 @@ export function CtaBand() {
               rel="noopener noreferrer"
               className="inline-flex items-center justify-center gap-2 rounded-full bg-ink px-6 py-3.5 text-sm font-semibold text-ink-foreground transition-colors hover:bg-black"
             >
-              <MessageCircle className="size-4" aria-hidden="true" />
+              <FaWhatsapp className="size-4" aria-hidden="true" />
               WhatsApp {site.whatsapp}
             </a>
             <a

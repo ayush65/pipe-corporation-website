@@ -66,7 +66,7 @@ export function Principles() {
               delay={i * 0.1}
               className={i === 0 ? "col-span-2" : undefined}
             >
-              <figure className="group relative overflow-hidden rounded-2xl bg-white">
+              <figure className="group overflow-hidden rounded-2xl bg-white">
                 <div className={i === 0 ? "relative aspect-[16/9]" : "relative aspect-square"}>
                   <Image
                     src={d.src}
@@ -76,7 +76,7 @@ export function Principles() {
                     className="object-cover transition-transform duration-700 group-hover:scale-105 motion-reduce:group-hover:scale-100"
                   />
                 </div>
-                <figcaption className="absolute bottom-3 left-3 rounded-full bg-ink/90 px-3 py-1.5 text-xs font-semibold">
+                <figcaption className="border-t border-border px-4 py-3 text-xs font-semibold text-foreground">
                   {d.label}
                 </figcaption>
               </figure>

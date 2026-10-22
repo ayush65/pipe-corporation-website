@@ -1,5 +1,6 @@
 import Link from "next/link"
-import { ArrowRight, MessageCircle, Phone, Search } from "lucide-react"
+import { ArrowRight, Phone, Search } from "lucide-react"
+import { FaWhatsapp } from "react-icons/fa"
 import { PageHero } from "@/components/page-hero"
 import { categories } from "@/lib/catalog"
 import { site, whatsappLink } from "@/lib/site"
@@ -78,7 +79,7 @@ export default function NotFound() {
                   rel="noopener noreferrer"
                   className="inline-flex items-center justify-center gap-2 rounded-full bg-primary px-5 py-3.5 text-sm font-semibold text-primary-foreground transition-colors hover:bg-crimson-deep"
                 >
-                  <MessageCircle className="size-4" aria-hidden="true" />
+                  <FaWhatsapp className="size-4" aria-hidden="true" />
                   Ask on WhatsApp
                 </a>
                 <a

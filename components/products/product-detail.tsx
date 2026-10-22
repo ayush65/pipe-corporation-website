@@ -1,6 +1,7 @@
 import Image from "next/image"
 import Link from "next/link"
-import { MessageCircle, Phone, ShieldCheck, Truck, PackageCheck } from "lucide-react"
+import { Phone, ShieldCheck, Truck, PackageCheck } from "lucide-react"
+import { FaWhatsapp } from "react-icons/fa"
 import { ProductCard } from "@/components/product-card"
 import { Reveal } from "@/components/reveal"
 import { SectionHeading } from "@/components/section-heading"
@@ -121,7 +122,7 @@ export function ProductDetail({
                   rel="noopener noreferrer"
                   className="inline-flex flex-1 items-center justify-center gap-2 rounded-full bg-primary px-6 py-3.5 text-sm font-semibold text-primary-foreground transition-colors hover:bg-crimson-deep"
                 >
-                  <MessageCircle className="size-4" aria-hidden="true" />
+                  <FaWhatsapp className="size-4" aria-hidden="true" />
                   Get price &amp; availability
                 </a>
                 <a
@@ -150,7 +151,7 @@ export function ProductDetail({
               title={<span id="related-heading">Related products</span>}
               description="Other fittings from the same and neighbouring ranges."
             />
-            <ul className="mt-10 grid grid-cols-2 gap-3 sm:gap-5 lg:grid-cols-4">
+            <ul className="mt-10 grid grid-cols-1 gap-3 sm:grid-cols-2 sm:gap-5 lg:grid-cols-4">
               {related.map(({ product: p, groupTitle, href }, i) => (
                 <li key={`${groupTitle}-${p.id}`}>
                   <Reveal delay={(i % 4) * 0.06} className="h-full">

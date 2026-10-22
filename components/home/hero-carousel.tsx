@@ -15,8 +15,8 @@ const slides = [
     title: "Everything that flows, under one roof.",
     description:
       "CPVC, UPVC, SWR & UGD pipe systems, taps, showers and accessories from India's most trusted brands.",
-    image: "/products/sanitary/hero-agro-plast/hero-group-photo.webp",
-    alt: "Hero Agro Plast range of CPVC, UPVC, SWR pipes and fittings",
+    image: "/products/sanitary/plumbing-range.webp",
+    alt: "Plumbing range — CPVC, UPVC and SWR pipes, taps and fittings",
     href: "/products/sanitary-plumbing",
     cta: "Explore Plumbing",
     tag: "Hero · Amrut · IZOTI · FLOZY",
@@ -343,19 +343,6 @@ export function HeroCarousel() {
                 </AnimatePresence>
               </div>
             </div>
-
-            <AnimatePresence mode="wait">
-              <motion.div
-                key={slide.tag}
-                initial={{ opacity: 0, y: 10, scale: 0.9 }}
-                animate={{ opacity: 1, y: 0, scale: 1 }}
-                exit={{ opacity: 0, y: -10, scale: 0.9 }}
-                transition={{ duration: 0.4, delay: 0.3 }}
-                className="absolute -bottom-2 left-1/2 -translate-x-1/2 whitespace-nowrap rounded-full bg-primary px-4 py-2 text-xs font-bold uppercase tracking-wider text-primary-foreground shadow-lg sm:bottom-4 sm:left-0 sm:translate-x-0"
-              >
-                {slide.tag}
-              </motion.div>
-            </AnimatePresence>
 
             <div className="absolute -right-1 top-6 hidden rounded-2xl border border-white/10 bg-ink/80 px-4 py-3 backdrop-blur sm:block">
               <p className="font-display text-2xl font-extrabold">

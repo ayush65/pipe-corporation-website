@@ -177,7 +177,7 @@ export function ProductBrowser({ groups, categorySlug }: { groups: ProductGroup[
                   {g.description} <span className="text-foreground/65">· {g.products.length} items</span>
                 </p>
               </div>
-              <ul className="mt-6 grid grid-cols-2 gap-3 sm:grid-cols-3 sm:gap-5 lg:grid-cols-4">
+              <ul className="mt-6 grid grid-cols-1 gap-3 sm:grid-cols-3 sm:gap-5 lg:grid-cols-4">
                 {/*
                  * Plain <li>: the previous per-item `whileInView` re-ran from
                  * opacity 0 every time a filter change re-mounted the list,

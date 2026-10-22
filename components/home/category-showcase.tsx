@@ -35,9 +35,6 @@ export function CategoryShowcase() {
                     sizes="(min-width: 768px) 50vw, 100vw"
                     className="object-contain p-6 transition-transform duration-700 group-hover:scale-105 motion-reduce:group-hover:scale-100"
                   />
-                  <span className="absolute left-4 top-4 rounded-full bg-ink px-3 py-1.5 text-xs font-bold uppercase tracking-wider">
-                    0{i + 1}
-                  </span>
                 </div>
                 <div className="flex flex-1 items-end justify-between gap-4 p-6 sm:p-8">
                   <div className="flex flex-col gap-2">

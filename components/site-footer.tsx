@@ -1,5 +1,6 @@
 import Link from "next/link"
-import { Mail, MapPin, MessageCircle, Phone } from "lucide-react"
+import { Mail, MapPin, Phone } from "lucide-react"
+import { FaWhatsapp } from "react-icons/fa"
 import { BrandLogo } from "@/components/brand-logo"
 import { categories } from "@/lib/catalog"
 import { nav, site, whatsappLink } from "@/lib/site"
@@ -73,7 +74,7 @@ export function SiteFooter() {
                 rel="noopener noreferrer"
                 className="flex items-start gap-3 hover:text-primary"
               >
-                <MessageCircle className="mt-0.5 size-4 shrink-0 text-primary" aria-hidden="true" />
+                <FaWhatsapp className="mt-0.5 size-4 shrink-0 text-primary" aria-hidden="true" />
                 <span>
                   <span className="block text-white/50">WhatsApp</span>
                   {site.whatsapp}

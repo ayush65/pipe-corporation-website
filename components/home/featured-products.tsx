@@ -31,7 +31,7 @@ export function FeaturedProducts() {
           title={<span id="featured-heading">Popular picks from our range</span>}
           description="A glimpse of what our dealers and contractors order most. Tap enquire to get pricing on WhatsApp."
         />
-        <ul className="mt-12 grid grid-cols-2 gap-3 sm:gap-5 lg:grid-cols-4">
+        <ul className="mt-12 grid grid-cols-1 gap-3 sm:grid-cols-2 sm:gap-5 lg:grid-cols-4">
           {featured.map(({ product, group, groupSlug, categorySlug }, i) => (
             <li key={product.id}>
               <Reveal delay={(i % 4) * 0.06} className="h-full">

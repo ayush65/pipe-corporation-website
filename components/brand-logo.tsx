@@ -2,34 +2,27 @@ import Image from "next/image"
 import Link from "next/link"
 import { cn } from "@/lib/utils"
 
+/**
+ * The corporate logo.
+ *
+ * `mainlogo.webp` is a wide wordmark lockup (900x237), so it is constrained by
+ * height only and keeps its own aspect ratio. The artwork is dark ink on a
+ * transparent background, so on the dark footer it is placed on a white plate
+ * — without it the mark would disappear into the section.
+ */
 export function BrandLogo({ className, inverted = false }: { className?: string; inverted?: boolean }) {
   return (
-    <Link href="/" className={cn("flex items-center gap-2.5", className)}>
-      <span
-        className={cn(
-          "flex size-11 shrink-0 items-center justify-center rounded-xl p-1",
-          inverted ? "bg-white" : "bg-transparent",
-        )}
-      >
-        <Image src="/logo-mark.png" alt="" width={84} height={65} className="h-auto w-full" priority />
-      </span>
-      <span className="flex flex-col leading-none">
-        <span
-          className={cn(
-            "font-display text-base font-extrabold tracking-wide sm:text-lg",
-            inverted ? "text-ink-foreground" : "text-foreground",
-          )}
-        >
-          PIPE CORPORATION
-        </span>
-        <span
-          className={cn(
-            "mt-1 text-[10px] font-medium uppercase tracking-[0.2em]",
-            inverted ? "text-primary-bright" : "text-primary",
-          )}
-        >
-          Since 1999
-        </span>
+    <Link href="/" className={cn("flex items-center", className)}>
+      <span className={cn("flex shrink-0 items-center", inverted && "rounded-lg bg-white px-3 py-2")}>
+        <Image
+          src="/mainlogo.webp"
+          alt="Pipe Corporation"
+          width={900}
+          height={237}
+          /* Only the header instance affects LCP; the footer one can wait. */
+          priority={!inverted}
+          className="h-9 w-auto sm:h-10"
+        />
       </span>
     </Link>
   )

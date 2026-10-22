@@ -1,7 +1,8 @@
 "use client"
 
 import { useActionState, useId, useRef, useState } from "react"
-import { CheckCircle2, Loader2, MessageCircle, Send } from "lucide-react"
+import { CheckCircle2, Loader2, Send } from "lucide-react"
+import { FaWhatsapp } from "react-icons/fa"
 import { sendEnquiry } from "@/lib/actions"
 import {
   enquiryInitialState,
@@ -267,7 +268,7 @@ function EnquiryFormInner({
           onClick={onSendToWhatsApp}
           className="inline-flex h-12 flex-1 items-center justify-center gap-2 rounded-full border border-border bg-background px-6 text-sm font-semibold transition-colors hover:border-primary/50"
         >
-          <MessageCircle className="size-4" aria-hidden="true" />
+          <FaWhatsapp className="size-4" aria-hidden="true" />
           Send on WhatsApp
         </button>
       </div>

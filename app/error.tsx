@@ -2,7 +2,8 @@
 
 import { useEffect } from "react"
 import Link from "next/link"
-import { RefreshCw, MessageCircle } from "lucide-react"
+import { RefreshCw } from "lucide-react"
+import { FaWhatsapp } from "react-icons/fa"
 import { whatsappLink } from "@/lib/site"
 
 /**
@@ -54,7 +55,7 @@ export default function Error({ error, reset }: { error: Error & { digest?: stri
             rel="noopener noreferrer"
             className="inline-flex items-center gap-2 rounded-full border border-border px-6 py-3.5 text-sm font-semibold transition-colors hover:border-foreground/40"
           >
-            <MessageCircle className="size-4" aria-hidden="true" />
+            <FaWhatsapp className="size-4" aria-hidden="true" />
             Report it
           </a>
         </div>

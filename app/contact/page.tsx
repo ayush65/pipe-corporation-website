@@ -1,5 +1,6 @@
 import type { Metadata } from "next"
-import { Building2, Mail, MapPin, MessageCircle, Phone } from "lucide-react"
+import { Building2, Mail, MapPin, Phone } from "lucide-react"
+import { FaWhatsapp } from "react-icons/fa"
 import { PageHero } from "@/components/page-hero"
 import { Reveal } from "@/components/reveal"
 import { ContactForm } from "@/components/contact/contact-form"
@@ -18,7 +19,7 @@ const channels = [
   { icon: Phone, label: "Main", value: site.phoneMain, href: site.phoneMainHref },
   { icon: Building2, label: "Office", value: site.phoneOffice, href: site.phoneOfficeHref },
   {
-    icon: MessageCircle,
+    icon: FaWhatsapp,
     label: "WhatsApp",
     value: site.whatsapp,
     href: whatsappLink("Hello Pipe Corporation, I have an enquiry."),
