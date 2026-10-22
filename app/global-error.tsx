@@ -1,5 +1,12 @@
 "use client"
 
+/* eslint-disable @next/next/no-html-link-for-pages --
+ * `global-error` replaces the root layout and is rendered outside the App
+ * Router context, so `next/link` has no router to push to. A plain anchor
+ * performs a full navigation, which also resets the broken router state —
+ * exactly the behaviour a last-resort error page wants.
+ */
+
 import { useEffect } from "react"
 
 /**
@@ -72,6 +79,7 @@ export default function GlobalError({ error, reset }: { error: Error & { digest?
             >
               Try again
             </button>
+            {/* Plain anchor by design — see the file-level eslint-disable note above. */}
             <a
               href="/"
               style={{

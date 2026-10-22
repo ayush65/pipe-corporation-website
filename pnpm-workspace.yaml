@@ -3,3 +3,9 @@ pmOnFail: ignore
 minimumReleaseAgeExclude:
   - '@next/*'
   - next
+
+allowBuilds:
+  # Native resolver used by eslint-import-resolver-typescript (a dependency
+  # of eslint-config-next). Its install script only downloads a prebuilt
+  # binary, so it is safe to allow.
+  unrs-resolver: true

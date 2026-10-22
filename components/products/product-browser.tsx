@@ -1,30 +1,50 @@
 "use client"
 
-import { useDeferredValue, useEffect, useMemo, useState } from "react"
+import { useCallback, useDeferredValue, useMemo, useState, useSyncExternalStore } from "react"
 import { AnimatePresence, motion } from "motion/react"
 import { Search, X } from "lucide-react"
 import { ProductCard } from "@/components/product-card"
 import { productPath, type ProductGroup } from "@/lib/catalog"
 import { cn } from "@/lib/utils"
 
+/**
+ * The search term lives in the URL so a search can be shared or bookmarked.
+ *
+ * It is read with `useSyncExternalStore` rather than `useEffect` + `setState`:
+ *
+ * - the server snapshot is `""`, so hydration never mismatches;
+ * - the real value is available on the first client render instead of costing
+ *   an extra cascading render after mount;
+ * - `useSearchParams()` is avoided because it would opt this statically
+ *   generated category page out of static rendering.
+ */
+const URL_CHANGE_EVENT = "pipe:url-change"
+
+function subscribeToUrl(onStoreChange: () => void) {
+  window.addEventListener("popstate", onStoreChange)
+  window.addEventListener(URL_CHANGE_EVENT, onStoreChange)
+  return () => {
+    window.removeEventListener("popstate", onStoreChange)
+    window.removeEventListener(URL_CHANGE_EVENT, onStoreChange)
+  }
+}
+
+function getUrlQuery(): string {
+  return new URLSearchParams(window.location.search).get("q") ?? ""
+}
+
+function getServerUrlQuery(): string {
+  return ""
+}
+
 export function ProductBrowser({ groups, categorySlug }: { groups: ProductGroup[]; categorySlug: string }) {
   const [activeGroup, setActiveGroup] = useState<string>("all")
-  const [query, setQuery] = useState("")
-  const [ready, setReady] = useState(false)
+  const query = useSyncExternalStore(subscribeToUrl, getUrlQuery, getServerUrlQuery)
   const deferredQuery = useDeferredValue(query)
 
-  // Read ?q= from the URL on mount (kept out of useSearchParams so the page stays static).
-  useEffect(() => {
-    const initial = new URLSearchParams(window.location.search).get("q")
-    if (initial) setQuery(initial)
-    setReady(true)
-  }, [])
-
-  // Keep the URL in sync so a search can be shared or bookmarked.
-  useEffect(() => {
-    if (!ready) return
+  const setQuery = useCallback((value: string) => {
     const params = new URLSearchParams(window.location.search)
-    if (query.trim()) params.set("q", query)
+    if (value.trim()) params.set("q", value)
     else params.delete("q")
     const search = params.toString()
     window.history.replaceState(
@@ -32,7 +52,9 @@ export function ProductBrowser({ groups, categorySlug }: { groups: ProductGroup[
       "",
       search ? `${window.location.pathname}?${search}` : window.location.pathname,
     )
-  }, [query, ready])
+    // `replaceState` does not emit `popstate`, so notify the store manually.
+    window.dispatchEvent(new Event(URL_CHANGE_EVENT))
+  }, [])
 
   const visibleGroups = useMemo(() => {
     const q = deferredQuery.trim().toLowerCase()

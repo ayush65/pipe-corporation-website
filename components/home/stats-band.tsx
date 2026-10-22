@@ -18,18 +18,19 @@ function Counter({ to, format, suffix }: { to: number; format: (n: number) => st
   const [n, setN] = useState(start)
 
   useEffect(() => {
-    if (!inView) return
-    if (reduce) {
-      setN(to)
-      return
-    }
+    if (!inView || reduce) return
     const controls = animate(start, to, { duration: 1.6, ease: [0.22, 1, 0.36, 1], onUpdate: (v) => setN(Math.round(v)) })
     return () => controls.stop()
   }, [inView, reduce, start, to])
 
+  // With reduced motion the final value is rendered directly instead of being
+  // pushed through state from inside the effect — a synchronous setState in an
+  // effect body triggers a cascading render.
+  const display = reduce ? to : n
+
   return (
     <span ref={ref} className="tabular-nums">
-      {format(n)}
+      {format(display)}
       {suffix && <span className="text-primary">{suffix}</span>}
     </span>
   )
