@@ -95,8 +95,6 @@ export default function ProductsPage() {
         </div>
       </section>
 
-      <CatalogueSearch entries={entries} />
-
       <CtaBand />
     </>
   )
