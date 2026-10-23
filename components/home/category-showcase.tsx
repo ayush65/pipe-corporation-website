@@ -15,7 +15,10 @@ export function CategoryShowcase() {
             title={<span id="categories-heading">Two sectors. One trusted source.</span>}
             description="Browse our complete range across plumbing & sanitary and agriculture & engineering."
           />
-          <Link href="/products" className="text-sm font-semibold text-primary underline-offset-4 hover:underline">
+          <Link
+            href="/products"
+            className="shrink-0 whitespace-nowrap text-sm font-semibold text-primary underline-offset-4 hover:underline"
+          >
             View all products
           </Link>
         </div>

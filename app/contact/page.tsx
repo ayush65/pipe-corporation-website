@@ -42,7 +42,7 @@ export default function ContactPage() {
           <div className="flex flex-col gap-4">
             <ul className="grid gap-3 sm:grid-cols-2 lg:grid-cols-1">
               {channels.map((c, i) => (
-                <li key={c.label}>
+                <li key={c.label} className="min-w-0">
                   <Reveal delay={i * 0.06}>
                     <a
                       href={c.href}
@@ -54,7 +54,7 @@ export default function ContactPage() {
                       </span>
                       <span className="min-w-0">
                         <span className="block text-xs font-bold uppercase tracking-wider text-muted-foreground">{c.label}</span>
-                        <span className="block truncate font-display text-lg font-bold">{c.value}</span>
+                        <span className="block break-words font-display text-lg font-bold">{c.value}</span>
                       </span>
                     </a>
                   </Reveal>

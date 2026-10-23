@@ -38,7 +38,7 @@ export function Testimonials() {
   const go = (d: number) => setI((v) => (v + d + testimonials.length) % testimonials.length)
 
   return (
-    <section aria-labelledby="testimonials-heading" className="bg-muted/60 py-20 sm:py-24">
+    <section aria-labelledby="testimonials-heading" className="overflow-x-clip bg-muted/60 py-20 sm:py-24">
       <div className="mx-auto grid max-w-7xl gap-12 px-4 sm:px-6 lg:grid-cols-[0.9fr_1.1fr] lg:items-center lg:px-8">
         <div className="flex flex-col gap-8">
           <SectionHeading
