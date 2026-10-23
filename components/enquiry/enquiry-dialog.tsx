@@ -37,6 +37,7 @@ export function EnquiryDialog({ categoryTitles, source }: { categoryTitles: stri
             categoryTitles={categoryTitles}
             source={source}
             onDone={closeEnquiry}
+            showWhatsApp={false}
             className="border-0 bg-transparent p-0"
           />
         </Dialog.Popup>

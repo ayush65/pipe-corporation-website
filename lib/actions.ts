@@ -78,12 +78,14 @@ export async function sendEnquiry(_previous: EnquiryState, formData: FormData): 
   if (!result.ok) {
     if (!result.configured) {
       /*
-       * No mail provider configured yet. The client turns this into a
-       * WhatsApp hand-off so the enquiry still reaches the sales desk.
+       * No mail provider configured yet. The contact page still offers a
+       * WhatsApp hand-off, but the popup does not, so the wording names no
+       * particular button and works on both surfaces.
        */
       return {
         status: "unconfigured",
-        message: "Email delivery is being set up. Send it on WhatsApp and we'll pick it up right away.",
+        message:
+          "Email delivery is being set up. Please call us on " + site.phoneMain + " and we'll pick it up right away.",
       }
     }
     return {

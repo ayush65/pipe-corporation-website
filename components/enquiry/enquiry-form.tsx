@@ -26,6 +26,13 @@ export type EnquiryFormProps = {
   className?: string
   /** Optional "Close" action shown on the success screen (used by the dialog). */
   onDone?: () => void
+  /**
+   * Show the "Send on WhatsApp" fallback beside the submit button.
+   *
+   * The popup keeps a single primary action, so it turns this off; the
+   * contact page still offers the hand-off.
+   */
+  showWhatsApp?: boolean
 }
 
 export function EnquiryForm(props: EnquiryFormProps) {
@@ -44,6 +51,7 @@ function EnquiryFormInner({
   source = "website",
   className,
   onDone,
+  showWhatsApp = true,
   onReset,
 }: EnquiryFormProps & { onReset: () => void }) {
   const [state, formAction, pending] = useActionState(sendEnquiry, enquiryInitialState)
@@ -263,14 +271,16 @@ function EnquiryFormInner({
           )}
           {pending ? "Sending…" : "Send enquiry"}
         </button>
-        <button
-          type="button"
-          onClick={onSendToWhatsApp}
-          className="inline-flex h-12 flex-1 items-center justify-center gap-2 rounded-full border border-border bg-background px-6 text-sm font-semibold transition-colors hover:border-primary/50"
-        >
-          <FaWhatsapp className="size-4" aria-hidden="true" />
-          Send on WhatsApp
-        </button>
+        {showWhatsApp && (
+          <button
+            type="button"
+            onClick={onSendToWhatsApp}
+            className="inline-flex h-12 flex-1 items-center justify-center gap-2 rounded-full border border-border bg-background px-6 text-sm font-semibold transition-colors hover:border-primary/50"
+          >
+            <FaWhatsapp className="size-4" aria-hidden="true" />
+            Send on WhatsApp
+          </button>
+        )}
       </div>
 
       <p
