@@ -8,7 +8,12 @@ import { nav, site, whatsappLink } from "@/lib/site"
 export function SiteFooter() {
   return (
     <footer className="bg-ink text-ink-foreground">
-      <div className="mx-auto grid max-w-7xl gap-12 px-4 py-16 sm:px-6 md:grid-cols-2 lg:grid-cols-4 lg:px-8">
+      {/*
+       * Four columns only once the viewport is wide enough for the email to
+       * sit on one line. At lg (1024-1279) the columns were ~204px and the
+       * address broke mid-word, leaving a single orphaned character.
+       */}
+      <div className="mx-auto grid max-w-7xl gap-12 px-4 py-16 sm:px-6 md:grid-cols-2 xl:grid-cols-4 lg:px-8">
         <div className="flex flex-col gap-5">
           <BrandLogo inverted />
           <p className="text-sm leading-relaxed text-white/60">
