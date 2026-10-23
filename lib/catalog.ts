@@ -250,7 +250,7 @@ export const categories: Category[] = [
     tagline: "CPVC · UPVC · SWR · UGD · Taps · Accessories",
     description:
       "Pipes, fittings, taps, showers, solvents and accessories from trusted brands like Hero, Amrut, IZOTI, FLOZY and BOND-WELD.",
-    cover: "/products/sanitary/hero-agro-plast/hero-group-photo.webp",
+    cover: "/products/sanitary/plumbing-range.webp",
     groups: sanitaryGroups,
   },
   {
