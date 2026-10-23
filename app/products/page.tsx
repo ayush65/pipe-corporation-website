@@ -38,10 +38,9 @@ export default function ProductsPage() {
         />
       </PageHero>
 
-      <CatalogueSearch entries={entries} />
-
       <section aria-label="Product categories" className="mx-auto max-w-7xl px-4 py-14 sm:px-6 sm:py-20 lg:px-8">
-        <div className="grid gap-6 lg:grid-cols-2">
+        <CatalogueSearch entries={entries} />
+        <div className="mt-10 grid gap-6 lg:grid-cols-2">
           {categories.map((c, i) => (
             <Reveal key={c.slug} delay={i * 0.1}>
               <article className="group flex h-full flex-col overflow-hidden rounded-3xl border border-border bg-card">
