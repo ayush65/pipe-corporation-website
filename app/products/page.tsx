@@ -38,6 +38,8 @@ export default function ProductsPage() {
         />
       </PageHero>
 
+      <CatalogueSearch entries={entries} />
+
       <section aria-label="Product categories" className="mx-auto max-w-7xl px-4 py-14 sm:px-6 sm:py-20 lg:px-8">
         <div className="grid gap-6 lg:grid-cols-2">
           {categories.map((c, i) => (
