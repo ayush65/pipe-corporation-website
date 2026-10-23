@@ -1,5 +1,6 @@
 import Image from "next/image"
 import Link from "next/link"
+import { ArrowRight } from "lucide-react"
 import { FaWhatsapp } from "react-icons/fa"
 import type { Product } from "@/lib/catalog"
 import { productEnquiryLink } from "@/lib/site"
@@ -54,16 +55,33 @@ export function ProductCard({
           )}
         </h3>
         <p className="line-clamp-3 text-xs leading-relaxed text-muted-foreground sm:text-sm">{product.description}</p>
-        <a
-          href={productEnquiryLink(product.title, groupTitle)}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="mt-auto inline-flex items-center justify-center gap-2 rounded-full bg-ink px-4 py-2.5 text-xs font-semibold text-ink-foreground transition-colors hover:bg-primary sm:text-sm"
-        >
-          <FaWhatsapp className="size-4" aria-hidden="true" />
-          Enquire
-          <span className="sr-only"> about {product.title}</span>
-        </a>
+        {/*
+         * Two stacked actions: "Learn more" opens the product page, the
+         * enquiry button sits below it. `mt-auto` lives on the wrapper so the
+         * pair stays pinned to the bottom of every card in the row.
+         */}
+        <div className="mt-auto flex flex-col gap-2">
+          {href && (
+            <Link
+              href={href}
+              className="inline-flex items-center justify-center gap-2 rounded-full border border-border bg-background px-4 py-2.5 text-xs font-semibold text-foreground transition-colors hover:border-primary/50 hover:text-primary sm:text-sm"
+            >
+              Learn more
+              <span className="sr-only"> about {product.title}</span>
+              <ArrowRight className="size-4" aria-hidden="true" />
+            </Link>
+          )}
+          <a
+            href={productEnquiryLink(product.title, groupTitle)}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center justify-center gap-2 rounded-full bg-ink px-4 py-2.5 text-xs font-semibold text-ink-foreground transition-colors hover:bg-primary sm:text-sm"
+          >
+            <FaWhatsapp className="size-4" aria-hidden="true" />
+            Enquire
+            <span className="sr-only"> about {product.title}</span>
+          </a>
+        </div>
       </div>
     </article>
   )

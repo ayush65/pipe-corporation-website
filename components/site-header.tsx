@@ -26,7 +26,17 @@ export function SiteHeader() {
   }, [open])
 
   return (
-    <header className="sticky top-0 z-50 border-b border-border/70 bg-background/85 backdrop-blur-md">
+    <header className="sticky top-0 z-50 border-b border-border/70">
+      {/*
+       * The blur lives on this inner layer, not on <header>.
+       *
+       * `backdrop-filter` makes an element the containing block for its
+       * `position: fixed` descendants, so the mobile panel below was being
+       * sized against the 64px header instead of the viewport and opened with
+       * zero height. Keeping the filter off <header> keeps that panel fixed to
+       * the viewport while preserving the frosted look.
+       */}
+      <div aria-hidden="true" className="pointer-events-none absolute inset-0 -z-10 bg-background/85 backdrop-blur-md" />
       <a
         href="#main"
         className="sr-only focus:not-sr-only focus:absolute focus:left-4 focus:top-4 focus:rounded-md focus:bg-primary focus:px-3 focus:py-2 focus:text-primary-foreground"

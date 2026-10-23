@@ -33,6 +33,13 @@ export type EnquiryFormProps = {
    * contact page still offers the hand-off.
    */
   showWhatsApp?: boolean
+  /**
+   * Render the form's own heading and blurb.
+   *
+   * The popup supplies its own dialog title and description, so it turns this
+   * off — otherwise the visitor reads the same sentence twice in a row.
+   */
+  showHeading?: boolean
 }
 
 export function EnquiryForm(props: EnquiryFormProps) {
@@ -52,6 +59,7 @@ function EnquiryFormInner({
   className,
   onDone,
   showWhatsApp = true,
+  showHeading = true,
   onReset,
 }: EnquiryFormProps & { onReset: () => void }) {
   const [state, formAction, pending] = useActionState(sendEnquiry, enquiryInitialState)
@@ -110,12 +118,14 @@ function EnquiryFormInner({
       action={formAction}
       className={cn("flex flex-col gap-5 rounded-3xl border border-border bg-card p-6 sm:p-8", className)}
     >
-      <div>
-        <h2 className="font-display text-2xl font-extrabold">Send an enquiry</h2>
-        <p className="mt-1 text-sm text-muted-foreground">
-          We reply with pricing and availability, usually the same working day.
-        </p>
-      </div>
+      {showHeading && (
+        <div>
+          <h2 className="font-display text-2xl font-extrabold">Send an enquiry</h2>
+          <p className="mt-1 text-sm text-muted-foreground">
+            We reply with pricing and availability, usually the same working day.
+          </p>
+        </div>
+      )}
 
       {/* Honeypot — hidden from people, irresistible to bots. */}
       <div aria-hidden="true" className="absolute -left-[9999px] top-auto h-px w-px overflow-hidden">
@@ -262,7 +272,7 @@ function EnquiryFormInner({
         <button
           type="submit"
           disabled={pending}
-          className="inline-flex h-12 flex-1 items-center justify-center gap-2 rounded-full bg-primary px-6 text-sm font-semibold text-primary-foreground transition-colors hover:bg-crimson-deep disabled:opacity-60"
+          className="inline-flex h-12 w-full items-center justify-center gap-2 rounded-full bg-primary px-6 text-sm font-semibold text-primary-foreground transition-colors hover:bg-crimson-deep disabled:opacity-60 sm:w-auto sm:flex-1"
         >
           {pending ? (
             <Loader2 className="size-4 animate-spin" aria-hidden="true" />
@@ -275,7 +285,7 @@ function EnquiryFormInner({
           <button
             type="button"
             onClick={onSendToWhatsApp}
-            className="inline-flex h-12 flex-1 items-center justify-center gap-2 rounded-full border border-border bg-background px-6 text-sm font-semibold transition-colors hover:border-primary/50"
+            className="inline-flex h-12 w-full items-center justify-center gap-2 rounded-full border border-border bg-background px-6 text-sm font-semibold transition-colors hover:border-primary/50 sm:w-auto sm:flex-1"
           >
             <FaWhatsapp className="size-4" aria-hidden="true" />
             Send on WhatsApp
