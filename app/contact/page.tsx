@@ -69,6 +69,14 @@ export default function ContactPage() {
                 <span className="block text-xs font-bold uppercase tracking-wider text-white/50">Location</span>
                 <span className="block font-display text-lg font-bold">{site.city}</span>
                 <span className="mt-1 block text-sm text-white/60">Serving Telangana &amp; neighbouring states</span>
+                <a
+                  href="https://maps.app.goo.gl/JjgvhEPoGf3UEjrN7?g_st=aw"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="mt-2 inline-flex items-center gap-1 text-sm font-semibold text-primary-bright hover:underline"
+                >
+                  View on Google Maps
+                </a>
               </span>
             </Reveal>
             <Reveal delay={0.3} className="rounded-2xl border border-border bg-card p-5">
