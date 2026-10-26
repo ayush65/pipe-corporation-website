@@ -22,6 +22,17 @@ const slides = [
     tag: "Hero · Amrut · IZOTI · FLOZY",
   },
   {
+    eyebrow: "Solvents & Lubricants",
+    title: "Stronger joints. Safer seals.",
+    description:
+      "PVC, UPVC, CPVC solvents and lubricants for leak-proof, long-lasting pipe joints on every job.",
+    image: "/products/sanitary/solvents/solvents-group-photo.webp",
+    alt: "Solvents and lubricants group photo",
+    href: "/products/sanitary-plumbing",
+    cta: "Explore Solvents",
+    tag: "PVC · UPVC · CPVC",
+  },
+  {
     eyebrow: "Agriculture & Engineering",
     title: "Built for borewells. Made to last.",
     description:
@@ -293,12 +304,12 @@ export function HeroCarousel() {
           <div className="relative aspect-square">
             <div
               aria-hidden="true"
-              className="motion-safe-spin absolute -inset-3 rounded-full border border-dashed border-white/20 sm:-inset-6"
+              className="motion-safe-spin absolute -inset-3 rounded-[2.5rem] border border-dashed border-white/20 sm:-inset-6"
               style={{ animation: "slow-spin 40s linear infinite" }}
             />
-            <div aria-hidden="true" className="crimson-orb absolute inset-[6%] rounded-full blur-2xl opacity-60" />
-            <div className="chrome-ring absolute inset-0 rounded-full p-[3.5%] shadow-2xl shadow-black/60">
-              <div className="relative size-full overflow-hidden rounded-full bg-white">
+            <div aria-hidden="true" className="crimson-orb absolute inset-[6%] rounded-[2rem] blur-2xl opacity-60" />
+            <div className="chrome-ring absolute inset-0 rounded-[2.25rem] p-[3.5%] shadow-2xl shadow-black/60">
+              <div className="relative size-full overflow-hidden rounded-[1.75rem] bg-white">
                 {/* The next slide's image is mounted (and hidden) so the
                     browser fetches and decodes it before the crossfade —
                     see the note above. */}
