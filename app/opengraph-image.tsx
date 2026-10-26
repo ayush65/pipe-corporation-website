@@ -28,7 +28,7 @@ export default async function OpengraphImage() {
               width: 18,
               height: 18,
               borderRadius: 999,
-              background: "#e0453f",
+              background: "#0095D8",
             }}
           />
           <div
@@ -48,7 +48,7 @@ export default async function OpengraphImage() {
           <div style={{ display: "flex", fontSize: 76, fontWeight: 800, lineHeight: 1.05, letterSpacing: -1 }}>
             PIPE CORPORATION
           </div>
-          <div style={{ display: "flex", fontSize: 36, color: "#e0453f", fontWeight: 700 }}>
+          <div style={{ display: "flex", fontSize: 36, color: "#0095D8", fontWeight: 700 }}>
             Plumbing · Sanitary · Agriculture
           </div>
           <div style={{ display: "flex", fontSize: 26, color: "rgba(255,255,255,0.62)", maxWidth: 900 }}>

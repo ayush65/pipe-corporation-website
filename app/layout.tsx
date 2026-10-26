@@ -9,6 +9,7 @@ import { WhatsAppFab } from '@/components/whatsapp-fab'
 import { EnquiryProvider } from '@/components/enquiry/enquiry-provider'
 import { categories } from '@/lib/catalog'
 import { absoluteUrl, site } from '@/lib/site'
+import { LocalBusinessJsonLd, OrganizationJsonLd, WebsiteJsonLd } from '@/lib/seo/jsonld'
 import './globals.css'
 
 const inter = Inter({ subsets: ['latin'], variable: '--font-inter' })
@@ -43,16 +44,26 @@ export const metadata: Metadata = {
     'Hero Agro Plast',
     'OXYJAL',
     'BOND-WELD solvents',
+    'pipe distributors Hyderabad',
+    'sanitary fittings Hyderabad',
+    'agricultural pipe fittings',
   ],
   robots: {
     index: true,
     follow: true,
-    googleBot: { index: true, follow: true, 'max-image-preview': 'large', 'max-snippet': -1 },
+    googleBot: { index: true, follow: true, 'max-image-preview': 'large', 'max-snippet': -1, 'max-video-preview': -1 },
+  },
+  alternates: {
+    canonical: site.url,
   },
   openGraph: {
     type: 'website',
     siteName: site.name,
     locale: 'en_IN',
+    url: site.url,
+    title: 'Pipe Corporation | Plumbing, Sanitary & Agriculture Fittings in Hyderabad',
+    description:
+      'Pipe Corporation, Hyderabad — trusted distributor since 1999 of G.I, C.I, SS HDP, CPVC, UPVC, SWR pipes & fittings, taps and agriculture fittings. 7,000+ SKUs under one roof.',
     // No `images` here on purpose — `app/opengraph-image.tsx` generates a branded
     // 1200x630 card and the file convention is the single source of truth for it.
     // Declaring `/logo.png` (a 400x336 raster) overrode it and shipped every social
@@ -60,6 +71,9 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: 'summary_large_image',
+    title: 'Pipe Corporation | Plumbing, Sanitary & Agriculture Fittings in Hyderabad',
+    description:
+      'Pipe Corporation, Hyderabad — trusted distributor since 1999 of G.I, C.I, SS HDP, CPVC, UPVC, SWR pipes & fittings, taps and agriculture fittings. 7,000+ SKUs under one roof.',
     // `twitter:image` falls back to the file-based Open Graph image.
   },
   icons: {
@@ -179,6 +193,9 @@ export default function RootLayout({
             <WhatsAppFab />
           </EnquiryProvider>
         </MotionProvider>
+        <OrganizationJsonLd />
+        <LocalBusinessJsonLd />
+        <WebsiteJsonLd />
         <StructuredData data={[organizationSchema, localBusinessSchema, websiteSchema]} />
         {process.env.NODE_ENV === 'production' && <Analytics />}
       </body>

@@ -40,6 +40,13 @@ export async function generateMetadata({
     title: found.product.title,
     description: found.product.description,
     path,
+    keywords: [
+      found.product.title,
+      found.group.title,
+      found.category.title,
+      "pipes and fittings",
+      "plumbing fittings",
+    ],
   })
 }
 

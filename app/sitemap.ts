@@ -6,8 +6,8 @@ export default function sitemap(): MetadataRoute.Sitemap {
   const now = new Date()
 
   const staticRoutes: MetadataRoute.Sitemap = [
-    { url: absoluteUrl("/"), lastModified: now, changeFrequency: "weekly", priority: 1 },
-    { url: absoluteUrl("/products"), lastModified: now, changeFrequency: "weekly", priority: 0.9 },
+    { url: absoluteUrl("/"), lastModified: now, changeFrequency: "weekly", priority: 1.0 },
+    { url: absoluteUrl("/products"), lastModified: now, changeFrequency: "weekly", priority: 0.95 },
     { url: absoluteUrl("/about"), lastModified: now, changeFrequency: "monthly", priority: 0.7 },
     { url: absoluteUrl("/contact"), lastModified: now, changeFrequency: "monthly", priority: 0.8 },
   ]
@@ -16,7 +16,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     url: absoluteUrl(`/products/${c.slug}`),
     lastModified: now,
     changeFrequency: "weekly",
-    priority: 0.8,
+    priority: 0.85,
   }))
 
   const productRoutes: MetadataRoute.Sitemap = categories.flatMap((c) =>
@@ -25,7 +25,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
         url: absoluteUrl(`/products/${c.slug}/${g.slug}/${p.slug}`),
         lastModified: now,
         changeFrequency: "monthly" as const,
-        priority: 0.6,
+        priority: 0.65,
       })),
     ),
   )

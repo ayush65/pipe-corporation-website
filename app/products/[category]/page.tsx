@@ -19,6 +19,12 @@ export async function generateMetadata({ params }: { params: Promise<{ category:
     title: c.title,
     description: c.description,
     path: `/products/${c.slug}`,
+    keywords: [
+      c.title,
+      `${c.shortTitle} fittings`,
+      "pipes and fittings",
+      "Hyderabad",
+    ],
   })
 }
 

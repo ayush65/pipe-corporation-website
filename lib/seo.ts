@@ -7,6 +7,8 @@ type PageMetaInput = {
   /** Site-relative path, e.g. "/about". */
   path: string
   type?: "website" | "article"
+  keywords?: string[]
+  image?: string
 }
 
 /**
@@ -25,25 +27,47 @@ export function pageMetadata({
   description,
   path,
   type = "website",
+  keywords,
+  image,
 }: PageMetaInput): Metadata {
   const url = absoluteUrl(path)
+
+  const openGraph: Metadata["openGraph"] = {
+    type,
+    url,
+    title,
+    description,
+    siteName: site.name,
+    locale: "en_IN",
+  } as Metadata["openGraph"]
+
+  if (image && openGraph) {
+    openGraph.images = [
+      {
+        url: absoluteUrl(image),
+        width: 1200,
+        height: 630,
+        alt: title,
+      },
+    ]
+  }
+
+  const twitter: Metadata["twitter"] = {
+    card: "summary_large_image",
+    title,
+    description,
+  } as Metadata["twitter"]
+
+  if (image && twitter) {
+    twitter.images = [absoluteUrl(image)]
+  }
 
   return {
     title,
     description,
     alternates: { canonical: path },
-    openGraph: {
-      type,
-      url,
-      title,
-      description,
-      siteName: site.name,
-      locale: "en_IN",
-    },
-    twitter: {
-      card: "summary_large_image",
-      title,
-      description,
-    },
+    keywords,
+    openGraph,
+    twitter,
   }
 }

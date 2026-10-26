@@ -5,9 +5,19 @@ import { PageHero } from "@/components/page-hero"
 import { categories } from "@/lib/catalog"
 import { site, whatsappLink } from "@/lib/site"
 
-export const metadata = {
-  title: "Page not found",
-  description: "The page you were looking for could not be found.",
+import type { Metadata } from "next"
+import { pageMetadata } from "@/lib/seo"
+
+export const metadata: Metadata = {
+  ...pageMetadata({
+    title: "Page Not Found",
+    description: "The page you were looking for could not be found. Browse our products or contact Pipe Corporation for assistance.",
+    path: "/404",
+  }),
+  robots: {
+    index: false,
+    follow: false,
+  },
 }
 
 export default function NotFound() {
