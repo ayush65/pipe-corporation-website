@@ -36,7 +36,6 @@ export default function ProductsPage() {
             ...categories.map((c) => ({ slug: c.slug, label: c.title, count: countProducts(c) })),
           ]}
         />
-        <CatalogueSearch entries={entries} />
       </PageHero>
 
       <CatalogueSearch entries={entries} />
