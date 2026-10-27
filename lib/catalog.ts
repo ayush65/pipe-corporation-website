@@ -336,13 +336,13 @@ export function relatedProducts(category: Category, group: ProductGroup, exclude
 }
 
 export const brands = [
-  { name: "Hero Agro Plast", logo: "/brands/hero-logo.webp" },
-  { name: "OXYJAL", logo: "/brands/oxy-jal-logo.webp" },
-  { name: "IZOTI Taps", logo: "/brands/izoti-logo.webp" },
-  { name: "FLOZY Taps", logo: "/brands/flozy-logo.webp" },
-  { name: "BOND-WELD Solvents", logo: "/brands/bond-weld-logo.webp" },
-  { name: "KELTON Ball Valves", logo: "/brands/kelton-logo.webp" },
-  { name: "JINDAL G.I Pipes", logo: "/brands/jindal-logo.webp" },
-  { name: "AMRUT CPVC Pipes", logo: "/brands/amrut-logo.webp" },
-  { name: "Quick Weld", logo: "/brands/quick-weld-logo.webp" },
+  { name: "Hero Agro Plast", logo: "/brands/hero-logo.png" },
+  { name: "OXYJAL", logo: "/brands/oxy-jal-logo.png" },
+  { name: "IZOTI Taps", logo: "/brands/izoti-logo.png" },
+  { name: "FLOZY Taps", logo: "/brands/flozy-logo.png" },
+  { name: "BOND-WELD Solvents", logo: "/brands/bond-weld-logo.png" },
+  { name: "KELTON Ball Valves", logo: "/brands/kelton-logo.png" },
+  { name: "JINDAL G.I Pipes", logo: "/brands/jindal-logo.png" },
+  { name: "AMRUT CPVC Pipes", logo: "/brands/amrut-logo.png" },
+  { name: "Quick Weld", logo: "/brands/quick-weld-logo.png" },
 ]
