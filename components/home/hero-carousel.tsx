@@ -302,13 +302,8 @@ export function HeroCarousel() {
           onDragEnd={onDragEnd}
         >
           <div className="relative aspect-square">
-            <div
-              aria-hidden="true"
-              className="motion-safe-spin absolute -inset-3 rounded-[2.5rem] border border-dashed border-white/20 sm:-inset-6"
-              style={{ animation: "slow-spin 40s linear infinite" }}
-            />
             <div aria-hidden="true" className="crimson-orb absolute inset-[6%] rounded-[2rem] blur-2xl opacity-60" />
-            <div className="chrome-ring absolute inset-0 rounded-[2.25rem] p-[3.5%] shadow-2xl shadow-black/60">
+            <div className="absolute inset-0 rounded-[2.25rem] p-[3.5%] shadow-2xl shadow-black/60">
               <div className="relative size-full overflow-hidden rounded-[1.75rem] bg-white">
                 {/* The next slide's image is mounted (and hidden) so the
                     browser fetches and decodes it before the crossfade —
