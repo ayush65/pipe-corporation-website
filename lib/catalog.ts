@@ -62,7 +62,6 @@ const sanitaryGroups: ProductGroup[] = [
     ["Amrut UGD Pipes", "amruth-ugd-pipe-s", "Underground drainage pipes for sewage and storm-water networks."],
   ]),
   group("sanitary", "izoti-taps", "izoti-pvc-taps", "IZOTI Taps & Showers", "Stylish PVC & PTMT taps, showers, faucets and concealed valves by IZOTI.", [
-    ["IZOTI Atom Series PTMT", "izoti-atom-series-ptmt", "Modern PTMT taps with smooth operation and long-lasting finish."],
     ["IZOTI Squro Series PTMT", "izoti-squro-series-ptmt", "Square-profile PTMT taps for a contemporary bathroom look."],
     ["IZOTI Hexa Series PVC", "izoti-hexa-series-pvc", "Hexagonal-design PVC taps built for everyday reliability."],
     ["IZOTI Regular Series PVC", "izoti-regular-series-pvc", "Economical, rust-free PVC taps for kitchen and utility areas."],
@@ -74,7 +73,6 @@ const sanitaryGroups: ProductGroup[] = [
     ["IZOTI PVC Connection Pipe", "izoti-pvc-connection-pipe", "Flexible PVC connection pipes for basins and geysers."],
   ]),
   group("sanitary", "flozy-taps", "flozy-pvc-taps", "FLOZY Taps & Showers", "FLOZY PVC & PTMT bath fittings designed for durability and style.", [
-    ["FLOZY Aura Series PTMT", "flozy-aura-series-ptmt", "Elegant PTMT taps with a glossy, long-lasting finish."],
     ["FLOZY Fusion Series PTMT", "flozy-fusion-series-ptmt", "Contemporary PTMT taps with smooth quarter-turn control."],
     ["FLOZY Posh Series PTMT Taps", "flozy-posh-series-ptmt-tap-s", "Premium-look PTMT taps for modern washrooms."],
     ["FLOZY Regular Series PVC", "flozy-regular-series-pvc", "Reliable everyday PVC taps at an economical price."],
