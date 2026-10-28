@@ -12,10 +12,32 @@ function pickFeatured() {
     groupSlug: string
     categorySlug: string
   }[] = []
+
+  const prioritySlugs = new Set([
+    "flozy-posh-series-ptmt-tap-s",
+    "round-man-hole-cover",
+    "square-man-hole-cover",
+    "rectangle-frp-man-hole",
+    "c-i-flenge",
+    "cri-type-check-valve",
+  ])
+
+  for (const c of categories) {
+    for (const g of c.groups) {
+      for (const p of g.products) {
+        if (prioritySlugs.has(p.slug) && !/group|mix/i.test(p.image)) {
+          picks.push({ product: p, group: g.title, groupSlug: g.slug, categorySlug: c.slug })
+        }
+      }
+    }
+  }
+
   for (const c of categories) {
     for (const g of c.groups.slice(0, 4)) {
       const p = g.products.find((x) => !/group|mix/i.test(x.image)) ?? g.products[0]
-      if (p) picks.push({ product: p, group: g.title, groupSlug: g.slug, categorySlug: c.slug })
+      if (p && !picks.some((pick) => pick.product.id === p.id)) {
+        picks.push({ product: p, group: g.title, groupSlug: g.slug, categorySlug: c.slug })
+      }
     }
   }
   return picks.slice(0, 8)
